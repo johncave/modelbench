@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/johncave/modelbench/pkg/benchmarkregistry"
@@ -47,12 +48,18 @@ type BenchmarkResult struct {
 	OutputTokenCount int
 }
 
-const defaultOllamaURL = "http://host.docker.internal:11434/api/chat"
+var defaultOllamaURL = "http://localhost:11434/api/chat"
 
 func (a *ArticleBenchmark) Name() string        { return "article" }
 func (a *ArticleBenchmark) Description() string { return "Generate a detailed article using Ollama" }
 func (a *ArticleBenchmark) SetIterations(n int) { a.iterations = n }
 func (a *ArticleBenchmark) GetIterations() int  { return a.iterations }
+
+func init() {
+	if os.Getenv("OLLAMA_URL") != "" {
+		defaultOllamaURL = os.Getenv("OLLAMA_URL")
+	}
+}
 
 func (a *ArticleBenchmark) Run(args map[string]string) error {
 	model, ok := args["model"]
@@ -81,6 +88,7 @@ func (a *ArticleBenchmark) Run(args map[string]string) error {
 			Stream:   false,
 			Messages: []Message{msg},
 		}
+
 		resp, err := talkToOllama(defaultOllamaURL, req)
 		if err != nil {
 			return err
