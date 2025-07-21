@@ -47,7 +47,7 @@ type BenchmarkResult struct {
 	OutputTokenCount int
 }
 
-const defaultOllamaURL = "http://localhost:11434/api/chat"
+const defaultOllamaURL = "http://host.docker.internal:11434/api/chat"
 
 func (a *ArticleBenchmark) Name() string        { return "article" }
 func (a *ArticleBenchmark) Description() string { return "Generate a detailed article using Ollama" }
