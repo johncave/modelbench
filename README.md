@@ -11,8 +11,8 @@ https://ollama.com/
 ollama pull deepseek-r1:1.5b
 ollama list
 ```
-
-Now you can pull models and check which are available 
+Now you can pull models and check which are available
+```
 git clone https://github.com/johncave/modelbench
 cd modelbench 
 docker run --rm -v $(pwd):/app -w /app -e OLLAMA_URL=http://host.docker.internal:11434/api/chat golang:latest go run . run article --model deepseek-r1:1.5b --iterations 5
